@@ -23,7 +23,7 @@ subnet_count         = 2
 #-------------------------------------------------------------------------------
 # Storage Module
 #-------------------------------------------------------------------------------
-storage_account_name  = "myterraformappsa12345"   # Must be globally unique
+storage_account_name  = "mystorageacc${random_string.suffix.result}"   # Must be globally unique
 storage_container_name = "app-container"
 
 #-------------------------------------------------------------------------------
