@@ -10,12 +10,10 @@ resource "azurerm_mssql_server" "sql_server" {
   administrator_login_password = var.sql_admin_password
 }
 
-resource "azurerm_sql_database" "sql_db" {
-  name                = var.sql_db_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  server_name         = azurerm_mssql_server.sql_server.name
-  requested_service_objective_name = "S0"
+resource "azurerm_mssql_database" "sql_db" {
+  name      = var.sql_db_name
+  server_id = azurerm_mssql_server.sql_server.id
+  sku_name  = "S0"
 }
 
 #---------------------------------------------------
