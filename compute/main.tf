@@ -34,6 +34,7 @@ resource "azurerm_linux_virtual_machine" "web" {
   size                = var.vm_size
   admin_username      = var.admin_username
   admin_password      = var.admin_password
+  disable_password_authentication = false
   network_interface_ids = [
     azurerm_network_interface.web_nic[count.index].id
   ]
