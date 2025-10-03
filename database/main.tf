@@ -36,9 +36,6 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
 
   version = "8.0"
 
-  delegated_subnet_id = element(var.subnet_ids, 0) # needs a delegated subnet
-  private_dns_zone_id = null
-
   high_availability {
     mode = "Disabled"
   }
