@@ -2,6 +2,11 @@
 # Database Module Variables
 #---------------------------------------------------
 
+variable "subnet_ids" {
+  description = "List of subnet IDs for delegated subnet assignment"
+  type        = list(string)
+}
+
 variable "resource_group_name" {
   description = "Azure Resource Group name"
   type        = string
