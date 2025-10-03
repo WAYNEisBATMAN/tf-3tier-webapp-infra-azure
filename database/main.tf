@@ -1,3 +1,8 @@
+variable "subnet_ids" {
+  description = "List of subnet IDs for delegated subnet assignment"
+  type        = list(string)
+}
+
 #---------------------------------------------------
 # Azure SQL Server & Database
 #---------------------------------------------------
@@ -17,22 +22,36 @@ resource "azurerm_mssql_database" "sql_db" {
 }
 
 #---------------------------------------------------
-# Azure Database for MySQL or PostgreSQL
+# Azure Database for MySQL Flexible Server
 #---------------------------------------------------
-resource "azurerm_mysql_server" "mysql_server" {
-  count                         = var.db_type == "mysql" ? 1 : 0
-  name                          = var.db_server_name
-  location                      = var.location
-  resource_group_name           = var.resource_group_name
-  administrator_login           = var.db_admin_username
-  administrator_login_password  = var.db_admin_password
-  sku_name                      = "B_Gen5_1"
-  version                       = "8.0"
-  storage_mb                    = 5120
-  backup_retention_days         = 7
-  public_network_access_enabled = true
-  ssl_enforcement_enabled       = true
+resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
+  count                  = var.db_type == "mysql" ? 1 : 0
+  name                   = var.db_server_name
+  location               = var.location
+  resource_group_name    = var.resource_group_name
+  administrator_login    = var.db_admin_username
+  administrator_password = var.db_admin_password
+
+  sku_name = "B_Standard_B1ms" # Flexible Server SKU (Basic tier)
+
+  version = "8.0"
+
+  delegated_subnet_id = element(var.subnet_ids, 0) # needs a delegated subnet
+  private_dns_zone_id = null
+
+  high_availability {
+    mode = "Disabled"
+  }
+
+  backup {
+    backup_retention_days = 7
+  }
+
+  tags = {
+    Environment = "Terraform"
+  }
 }
+
 
 resource "azurerm_mysql_database" "mysql_db" {
   count               = var.db_type == "mysql" ? 1 : 0

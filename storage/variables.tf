@@ -16,7 +16,7 @@ variable "location" {
 variable "storage_account_name" {
   description = "Name of the Azure Storage Account (must be globally unique)"
   type        = string
-  default     = "terraformstorageacct12345"
+  default     = "terraformstorageacc1234"
 }
 
 variable "enable_blob_service" {
