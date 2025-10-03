@@ -10,7 +10,7 @@ output "sql_server_name" {
 
 output "sql_database_name" {
   description = "Azure SQL Database Name"
-  value       = azurerm_sql_database.sql_db.name
+  value       = azurerm_mssql_database.sql_db.name
 }
 
 # Azure MySQL
