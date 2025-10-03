@@ -30,6 +30,7 @@ module "database" {
   sql_admin_username     = var.sql_admin_username
   db_name                = var.db_name
   cosmosdb_account_name  = var.cosmosdb_account_name
+  subnet_ids = var.subnet_ids
 }
 
 module "storage" {

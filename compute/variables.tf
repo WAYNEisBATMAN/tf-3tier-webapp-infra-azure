@@ -39,6 +39,7 @@ variable "admin_password" {
 variable "subnet_ids" {
   description = "List of subnet IDs to deploy VMs"
   type        = list(string)
+  default     = []
 }
 
 variable "nsg_id" {

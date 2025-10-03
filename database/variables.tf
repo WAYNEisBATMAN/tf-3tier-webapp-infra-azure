@@ -5,6 +5,7 @@
 variable "subnet_ids" {
   description = "List of subnet IDs for delegated subnet assignment"
   type        = list(string)
+  default = []
 }
 
 variable "resource_group_name" {
