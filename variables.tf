@@ -1,18 +1,6 @@
-#----------------------------------------------------------------------------
-# Root Module
-#----------------------------------------------------------------------------
-variable "azure_location" {
-  description = "Azure region to deploy resources"
-  type        = string
-  default     = "South India"  # Equivalent to ap-south-1
-}
-
-#----------------------------------------------------------------------------
-# Compute Module
-#----------------------------------------------------------------------------
-#---------------------------------------------------
-# Compute Module Variables
-#---------------------------------------------------
+#-------------------------------------------------------------------------------
+# Root-level Variables
+#-------------------------------------------------------------------------------
 
 variable "resource_group_name" {
   description = "Azure Resource Group name"
@@ -20,10 +8,14 @@ variable "resource_group_name" {
 }
 
 variable "location" {
-  description = "Azure region to deploy compute resources"
+  description = "Azure region to deploy resources"
   type        = string
   default     = "Central India"
 }
+
+#-------------------------------------------------------------------------------
+# Compute Module Variables
+#-------------------------------------------------------------------------------
 
 variable "instance_count" {
   description = "Number of VMs to deploy"
@@ -58,10 +50,10 @@ variable "nsg_id" {
   type        = string
 }
 
+#-------------------------------------------------------------------------------
+# Network Module Variables
+#-------------------------------------------------------------------------------
 
-#----------------------------------------------------------------------------
-# Network Module
-#----------------------------------------------------------------------------
 variable "vnet_cidr" {
   description = "VNet CIDR block"
   type        = string
@@ -74,9 +66,10 @@ variable "subnet_count" {
   default     = 2
 }
 
-#----------------------------------------------------------------------------
-# Storage Module
-#----------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# Storage Module Variables
+#-------------------------------------------------------------------------------
+
 variable "storage_account_name" {
   description = "Azure Storage Account name (globally unique)"
   type        = string
@@ -89,23 +82,9 @@ variable "storage_container_name" {
   default     = "app-container"
 }
 
-
-
-
-#---------------------------------------------------
+#-------------------------------------------------------------------------------
 # Database Module Variables
-#---------------------------------------------------
-
-variable "resource_group_name" {
-  description = "Azure Resource Group name"
-  type        = string
-}
-
-variable "location" {
-  description = "Azure region to deploy database resources"
-  type        = string
-  default     = "Central India"
-}
+#-------------------------------------------------------------------------------
 
 # Azure SQL Database
 variable "sql_server_name" {
@@ -128,6 +107,7 @@ variable "sql_admin_username" {
 variable "sql_admin_password" {
   description = "SQL Server admin password"
   type        = string
+  sensitive   = true
 }
 
 # Azure Database for MySQL/PostgreSQL
@@ -155,6 +135,7 @@ variable "db_admin_username" {
 variable "db_admin_password" {
   description = "Database admin password"
   type        = string
+  sensitive   = true
 }
 
 # Cosmos DB
@@ -174,21 +155,9 @@ variable "cosmosdb_database_name" {
   type        = string
 }
 
-
-#---------------------------------------------------
+#-------------------------------------------------------------------------------
 # Monitoring Module Variables
-#---------------------------------------------------
-
-variable "resource_group_name" {
-  description = "Azure Resource Group name"
-  type        = string
-}
-
-variable "location" {
-  description = "Azure region for monitoring resources"
-  type        = string
-  default     = "Central India"
-}
+#-------------------------------------------------------------------------------
 
 variable "vm_ids" {
   description = "List of VM IDs to monitor"

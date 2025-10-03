@@ -1,13 +1,12 @@
 #-------------------------------------------------------------------------------
 # Root Module
 #-------------------------------------------------------------------------------
-azure_location       = "South India"  # Equivalent to ap-south-1
+location       = "South India"  # Equivalent to ap-south-1
 
 #-------------------------------------------------------------------------------
 # Compute Module
 #-------------------------------------------------------------------------------
 resource_group_name  = "my-3tier-rg"
-location             = "Central India"
 instance_count       = 2
 vm_size              = "Standard_B1s"
 admin_username       = "azureadmin"
