@@ -14,7 +14,7 @@ resource "azurerm_sql_database" "sql_db" {
   name                = var.sql_db_name
   resource_group_name = var.resource_group_name
   location            = var.location
-  server_name         = azurerm_sql_server.sql_server.name
+  server_name         = azurerm_mssql_server.sql_server.name
   requested_service_objective_name = "S0"
 }
 

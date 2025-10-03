@@ -43,6 +43,6 @@ resource "azurerm_storage_queue" "queue" {
 #---------------------------------------------------
 resource "azurerm_storage_table" "table" {
   count                = var.enable_table_service ? 1 : 0
-  name                 = "waynes-tablestorage"
+  name                 = "waynes"
   storage_account_name = azurerm_storage_account.storage.name
 }

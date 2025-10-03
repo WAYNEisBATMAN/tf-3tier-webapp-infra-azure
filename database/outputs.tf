@@ -5,7 +5,7 @@
 # Azure SQL
 output "sql_server_name" {
   description = "Azure SQL Server Name"
-  value       = azurerm_sql_server.sql_server.name
+  value       = azurerm_mssql_server.sql_server.name
 }
 
 output "sql_database_name" {
