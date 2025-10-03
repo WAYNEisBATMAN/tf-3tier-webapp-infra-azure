@@ -29,11 +29,7 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
 
   sku_name = "B_Standard_B1ms" # Flexible Server SKU (Basic tier)
 
-  version = "8.0"
-
-  high_availability {
-    mode = "Disabled"
-  }
+  version = "8.0.21"
 
   tags = {
     Environment = "Terraform"
@@ -45,7 +41,7 @@ resource "azurerm_mysql_flexible_database" "mysql_db" {
   count               = var.db_type == "mysql" ? 1 : 0
   name                = var.db_name
   resource_group_name = var.resource_group_name
-  server_name         = azurerm_mysql_flexible_database.mysql_flexible_server[0].name
+  server_name         = azurerm_mysql_flexible_server.mysql_flexible_server[0].name
   charset             = "utf8"
   collation           = "utf8_general_ci"
 }
