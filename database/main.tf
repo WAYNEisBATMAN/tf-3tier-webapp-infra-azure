@@ -1,7 +1,7 @@
 #---------------------------------------------------
 # Azure SQL Server & Database
 #---------------------------------------------------
-resource "azurerm_sql_server" "sql_server" {
+resource "azurerm_mssql_server" "sql_server" {
   name                         = var.sql_server_name
   resource_group_name          = var.resource_group_name
   location                     = var.location
@@ -53,7 +53,7 @@ resource "azurerm_postgresql_server" "postgresql_server" {
   administrator_login           = var.db_admin_username
   administrator_login_password  = var.db_admin_password
   sku_name                      = "B_Gen5_1"
-  version                       = "13"
+  version                       = "10.0"
   storage_mb                    = 5120
   backup_retention_days         = 7
   ssl_enforcement_enabled       = true

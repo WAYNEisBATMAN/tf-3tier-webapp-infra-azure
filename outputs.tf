@@ -62,23 +62,23 @@ output "vnet_id" {
   value = module.network.vnet_id
 }
 
-output "availability_zones" {
-  value = module.network.availability_zones
-}
+# output "availability_zones" {
+#   value = module.network.availability_zones
+# }
 
 output "subnet_ids" {
   value = module.network.subnet_ids
 }
 
 output "web_nsg_id" {
-  value = module.network.web_nsg_id
+  value = module.network.nsg_name
 }
 
-output "public_ip_ids" {
-  value = module.network.public_ip_ids
-}
+# output "public_ip_ids" {
+#   value = module.network.public_ip_ids
+# }
 
-output "internet_gateway_id" {
-  description = "Azure equivalent: Internet-facing NAT / Public IPs"
-  value       = module.network.internet_gateway_id
-}
+# output "internet_gateway_id" {
+#   description = "Azure equivalent: Internet-facing NAT / Public IPs"
+#   value       = module.network.internet_gateway_id
+# }

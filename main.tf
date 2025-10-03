@@ -15,7 +15,7 @@ module "compute" {
   admin_username      = var.admin_username
   admin_password      = var.admin_password
   subnet_ids          = module.network.subnet_ids
-  nsg_id              = module.network.web_nsg_id
+  nsg_id              = module.network.nsg_name
 }
 
 module "database" {

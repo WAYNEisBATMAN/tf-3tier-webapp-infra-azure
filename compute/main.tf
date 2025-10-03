@@ -9,7 +9,7 @@ resource "azurerm_network_interface" "web_nic" {
   ip_configuration {
     name                          = "internal"
     subnet_id                     = var.subnet_ids[count.index % length(var.subnet_ids)]
-    private_ip_address_allocation  = "Dynamic"
+    private_ip_address_allocation = "Dynamic"
   }
 
 }
@@ -27,6 +27,7 @@ resource "azurerm_network_interface_security_group_association" "web_nic_nsg" {
 # Linux Virtual Machines
 #---------------------------------------------------
 resource "azurerm_linux_virtual_machine" "web" {
+  count               = var.instance_count
   name                = "web-server-${count.index + 1}"
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -84,8 +85,8 @@ resource "azurerm_lb" "app_lb" {
 # Backend Pool
 #---------------------------------------------------
 resource "azurerm_lb_backend_address_pool" "web_bap" {
-  name                = "web-bap"
-  loadbalancer_id     = azurerm_lb.app_lb.id
+  name            = "web-bap"
+  loadbalancer_id = azurerm_lb.app_lb.id
 }
 
 #---------------------------------------------------
