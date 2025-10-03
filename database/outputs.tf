@@ -16,12 +16,12 @@ output "sql_database_name" {
 # Azure MySQL
 output "mysql_server_name" {
   description = "Azure MySQL Server Name"
-  value       = var.db_type == "mysql" ? azurerm_mysql_server.mysql_server[0].name : ""
+  value       = var.db_type == "mysql" ? azurerm_mysql_flexible_server.mysql_flexible_server[0].name : ""
 }
 
 output "mysql_database_name" {
   description = "Azure MySQL Database Name"
-  value       = var.db_type == "mysql" ? azurerm_mysql_database.mysql_db[0].name : ""
+  value       = var.db_type == "mysql" ? azurerm_mysql_flexible_database.mysql_db[0].name : ""
 }
 
 # Azure PostgreSQL

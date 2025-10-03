@@ -35,21 +35,17 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
     mode = "Disabled"
   }
 
-  backup {
-    backup_retention_days = 7
-  }
-
   tags = {
     Environment = "Terraform"
   }
 }
 
 
-resource "azurerm_mysql_database" "mysql_db" {
+resource "azurerm_mysql_flexible_database" "mysql_db" {
   count               = var.db_type == "mysql" ? 1 : 0
   name                = var.db_name
   resource_group_name = var.resource_group_name
-  server_name         = azurerm_mysql_server.mysql_server[0].name
+  server_name         = azurerm_mysql_flexible_database.mysql_flexible_server[0].name
   charset             = "utf8"
   collation           = "utf8_general_ci"
 }
