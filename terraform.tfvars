@@ -6,7 +6,7 @@ location       = "South India"  # Equivalent to ap-south-1
 #-------------------------------------------------------------------------------
 # Compute Module
 #-------------------------------------------------------------------------------
-resource_group_name  = "my-3tier-rg"
+resource_group_name  = "My-3Tier-RG"
 instance_count       = 2
 vm_size              = "Standard_B1s"
 admin_username       = "azureadmin"
