@@ -283,6 +283,34 @@ terraform import azurerm_resource_group.main /subscriptions/SUBSCRIPTION_ID/reso
 terraform force-unlock LOCK_ID
 ```
 
+---
+📊 Monitoring
+**Available Metrics**
+- CPU usage alerts (threshold: 80%)
+- Log Analytics Workspace for centralized logging
+- Action Groups for email notifications
+
+**View Metrics**
+```bash
+# Azure Portal
+Azure Portal → Monitor → Metrics
+
+# Azure CLI
+az monitor metrics list --resource <RESOURCE_ID>
+```
+
+---
+🔄 Updating Infrastructure
+# Modify terraform.tfvars or module files
+# Preview changes
+```bash
+terraform plan
+```
+
+# Apply changes
+```bash
+terraform apply
+```
 
 ---
 ## 🗑️ Cleanup
