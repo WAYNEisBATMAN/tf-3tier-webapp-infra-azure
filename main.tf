@@ -33,6 +33,13 @@ module "database" {
   subnet_ids             = var.subnet_ids
 }
 
+
+resource "random_string" "storage_suffix" {
+  length  = 8
+  special = false
+  upper   = false
+}
+
 module "storage" {
   source               = "./storage"
   location             = var.location
