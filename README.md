@@ -172,7 +172,7 @@ Prepares modules for use
 terraform validate
 ```
 
-6. **Preview Changes**
+**6. Preview Changes**
 ```bash
 terraform plan
 ```
@@ -183,7 +183,7 @@ Review the planned changes. Terraform will show:
 Resource dependencies
 Module execution order
 
-7. **Deploy Infrastructure**
+**7. Deploy Infrastructure**
 ```bash
 terraform apply -auto-approve
 ```
@@ -204,7 +204,7 @@ Deployment Time: Approximately 8-12 minutes
 - 1 Key Vault with auto-generated passwords
 - 1 SSH key pair
 
-8. **Access Outputs**
+**8. Access Outputs**
 ```bash
 # View all outputs
 terraform output
@@ -217,7 +217,7 @@ terraform output ssh_connection_commands
 
 
 
-9. **SSH into VMs**
+**9. SSH into VMs**
 ```bash
 # Get SSH commands
 terraform output ssh_connection_commands
