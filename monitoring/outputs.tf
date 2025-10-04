@@ -16,3 +16,8 @@ output "cpu_metric_alert_id" {
   description = "ID of the CPU metric alert"
   value       = azurerm_monitor_metric_alert.cpu_alert.id
 }
+
+output "log_analytics_workspace_name" {
+  description = "Log Analytics Workspace Name"
+  value       = azurerm_log_analytics_workspace.law.name
+}

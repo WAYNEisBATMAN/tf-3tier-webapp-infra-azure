@@ -38,10 +38,6 @@ output "vm_names" {
   value       = module.compute.vm_names
 }
 
-output "vm_private_ips" {
-  description = "Private IP addresses of VMs"
-  value       = module.compute.vm_private_ips
-}
 
 output "load_balancer_id" {
   description = "Load Balancer ID"
@@ -162,14 +158,15 @@ output "log_analytics_workspace_name" {
   value       = module.monitoring.log_analytics_workspace_name
 }
 
-output "action_group_id" {
+
+output "monitor_action_group_id" {
   description = "Monitor Action Group ID"
-  value       = module.monitoring.action_group_id
+  value       = module.monitoring.monitor_action_group_id
 }
 
-output "cpu_alert_id" {
+output "cpu_metric_alert_id" {
   description = "CPU Metric Alert ID"
-  value       = module.monitoring.cpu_alert_id
+  value       = module.monitoring.cpu_metric_alert_id
 }
 
 #---------------------------------------------------

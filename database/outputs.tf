@@ -45,3 +45,20 @@ output "cosmosdb_database_name" {
   description = "Azure Cosmos DB Database Name"
   value       = azurerm_cosmosdb_sql_database.cosmosdb_db.name
 }
+
+
+
+output "sql_server_fqdn" {
+  description = "Azure SQL Server FQDN"
+  value       = azurerm_mssql_server.sql_server.fully_qualified_domain_name
+}
+
+output "mysql_server_fqdn" {
+  description = "MySQL Server FQDN"
+  value       = var.db_type == "mysql" ? azurerm_mysql_flexible_server.mysql_flexible_server[0].fqdn : ""
+}
+
+output "cosmosdb_endpoint" {
+  description = "Cosmos DB Endpoint"
+  value       = azurerm_cosmosdb_account.cosmosdb.endpoint
+}

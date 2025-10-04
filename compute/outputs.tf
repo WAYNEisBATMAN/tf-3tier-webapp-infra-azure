@@ -2,14 +2,21 @@
 # Compute Module Outputs
 #---------------------------------------------------
 
-# output "vm_ids" {
-#   description = "IDs of all virtual machines"
-#   value       = [for vm in azurerm_linux_virtual_machine.web : vm.id]
-# }
 
 output "vm_ids" {
   description = "List of all VM resource IDs"
   value       = azurerm_linux_virtual_machine.web[*].id
+}
+
+output "vm_names" {
+  description = "List of VM names"
+  value       = azurerm_linux_virtual_machine.web[*].name
+}
+
+
+output "load_balancer_public_ip" {
+  description = "Load Balancer Public IP Address"
+  value       = azurerm_public_ip.lb_public_ip.ip_address
 }
 
 output "vm_public_ips" {

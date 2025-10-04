@@ -7,6 +7,11 @@ output "vnet_id" {
   value       = azurerm_virtual_network.vnet.id
 }
 
+output "vnet_name" {
+  description = "Virtual Network Name"
+  value       = azurerm_virtual_network.vnet.name
+}
+
 output "subnet_ids" {
   description = "List of all subnet IDs"
   value       = [for s in azurerm_subnet.subnet : s.id]

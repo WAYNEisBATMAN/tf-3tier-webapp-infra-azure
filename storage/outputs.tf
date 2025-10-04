@@ -31,3 +31,23 @@ output "table_name" {
   description = "Name of Table if enabled"
   value       = var.enable_table_service ? azurerm_storage_table.table[0].name : ""
 }
+
+output "primary_blob_endpoint" {
+  description = "Primary Blob Endpoint"
+  value       = azurerm_storage_account.storage.primary_blob_endpoint
+}
+
+output "primary_file_endpoint" {
+  description = "Primary File Endpoint"
+  value       = azurerm_storage_account.storage.primary_file_endpoint
+}
+
+output "primary_queue_endpoint" {
+  description = "Primary Queue Endpoint"
+  value       = azurerm_storage_account.storage.primary_queue_endpoint
+}
+
+output "primary_table_endpoint" {
+  description = "Primary Table Endpoint"
+  value       = azurerm_storage_account.storage.primary_table_endpoint
+}
