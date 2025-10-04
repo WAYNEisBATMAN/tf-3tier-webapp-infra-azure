@@ -4,15 +4,30 @@
 location = "South India" # Equivalent to ap-south-1
 
 #-------------------------------------------------------------------------------
+# Keyvault Module
+#-------------------------------------------------------------------------------
+
+keyvault_name = "waynes-3tier-kv" # Must be globally unique
+
+# Credentials (will be stored in Key Vault)
+admin_username     = "azureadmin"
+admin_password     = "SuperSecretPassword123!"
+sql_admin_username = "sqladmin"
+sql_admin_password = "SqlPassword123!"
+db_admin_username  = "dbadmin"
+db_admin_password  = "DbPassword123!"
+
+
+#-------------------------------------------------------------------------------
 # Compute Module
 #-------------------------------------------------------------------------------
 resource_group_name = "My-3Tier-RG"
 instance_count      = 2
 vm_size             = "Standard_B1s"
-admin_username      = "azureadmin"
-admin_password      = "SuperSecretPassword123!"          # Make sure this meets Azure password requirements
-subnet_ids          = ["<subnet_id_1>", "<subnet_id_2>"] # Replace with actual subnet IDs
-nsg_id              = "<nsg_id>"                         # Replace with actual NSG ID
+# admin_username      = "azureadmin"
+# admin_password      = "SuperSecretPassword123!"          # Make sure this meets Azure password requirements
+subnet_ids = ["<subnet_id_1>", "<subnet_id_2>"] # Replace with actual subnet IDs
+nsg_id     = "<nsg_id>"                         # Replace with actual NSG ID
 
 #-------------------------------------------------------------------------------
 # Network Module
@@ -29,16 +44,16 @@ storage_container_name = "app-container"
 #-------------------------------------------------------------------------------
 # Database Module
 #-------------------------------------------------------------------------------
-sql_server_name    = "terraform-sql-server-12345"
-sql_db_name        = "terraform-sql-db"
-sql_admin_username = "sqladmin"
-sql_admin_password = "SQLSuperSecret123!" # Make sure it meets Azure SQL password rules
+sql_server_name = "terraform-sql-server-12345"
+sql_db_name     = "terraform-sql-db"
+# sql_admin_username = "sqladmin"
+# sql_admin_password = "SQLSuperSecret123!" # Make sure it meets Azure SQL password rules
 
-db_server_name    = "terraform-mysql-server"
-db_type           = "mysql"
-db_name           = "appdb"
-db_admin_username = "dbadmin"
-db_admin_password = "DbSuperSecret123!" # Ensure strong password
+db_server_name = "terraform-mysql-server"
+db_type        = "mysql"
+db_name        = "appdb"
+# db_admin_username = "dbadmin"
+# db_admin_password = "DbSuperSecret123!" # Ensure strong password
 
 cosmosdb_account_name  = "terraform-cosmosdb-12345" # Must be globally unique
 cosmosdb_kind          = "GlobalDocumentDB"

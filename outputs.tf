@@ -3,6 +3,21 @@
 #---------------------------------------------------
 
 #---------------------------------------------------
+# Keyvault Module Outputs
+#---------------------------------------------------
+
+output "keyvault_name" {
+  description = "Key Vault Name"
+  value       = module.keyvault.keyvault_id
+}
+
+output "keyvault_uri" {
+  description = "Key Vault URI"
+  value       = module.keyvault.keyvault_uri
+}
+
+
+#---------------------------------------------------
 # Network Module Outputs
 #---------------------------------------------------
 output "vnet_id" {

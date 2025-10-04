@@ -17,6 +17,24 @@ resource "azurerm_resource_group" "main" {
 }
 
 #---------------------------------------------------
+# Key Vault Module (Create first)
+#---------------------------------------------------
+module "keyvault" {
+  source = "./keyvault"
+
+  keyvault_name       = var.keyvault_name
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  admin_username      = var.admin_username
+  admin_password      = var.admin_password
+  sql_admin_password  = var.sql_admin_password
+  db_admin_password   = var.db_admin_password
+
+  depends_on = [azurerm_resource_group.main]
+}
+
+
+#---------------------------------------------------
 # Network Module
 #---------------------------------------------------
 module "network" {
@@ -33,14 +51,15 @@ module "compute" {
   source              = "./compute"
   location            = var.location
   resource_group_name = azurerm_resource_group.main.name
-  admin_username      = var.admin_username
-  admin_password      = var.admin_password
+  admin_username      = module.keyvault.admin_username
+  admin_password      = module.keyvault.admin_password
   nsg_id              = module.network.nsg_id
   subnet_ids          = module.network.subnet_ids
 
   depends_on = [
     azurerm_resource_group.main,
-    module.network
+    module.network,
+    module.keyvault
   ]
 }
 
@@ -53,17 +72,18 @@ module "database" {
   resource_group_name    = azurerm_resource_group.main.name
   cosmosdb_database_name = var.cosmosdb_database_name
   db_server_name         = var.db_server_name
-  sql_admin_password     = var.sql_admin_password
-  db_admin_password      = var.db_admin_password
-  db_admin_username      = var.db_admin_username
   sql_admin_username     = var.sql_admin_username
+  sql_admin_password     = module.keyvault.sql_admin_password
+  db_admin_username      = var.db_admin_username
+  db_admin_password      = module.keyvault.db_admin_password
   db_name                = var.db_name
   cosmosdb_account_name  = var.cosmosdb_account_name
   subnet_ids             = module.network.subnet_ids
 
   depends_on = [
     azurerm_resource_group.main,
-    module.network
+    module.network,
+    module.keyvault
   ]
 }
 
