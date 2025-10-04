@@ -14,7 +14,12 @@ terraform {
 }
 
 provider "azurerm" {
-  features {} # Required block for Azure provider
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+  # Required block for Azure provider
 
   # Optional: you can also specify subscription, tenant, or client credentials if needed
   # subscription_id = var.subscription_id
