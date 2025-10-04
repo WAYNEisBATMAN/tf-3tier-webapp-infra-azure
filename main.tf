@@ -30,14 +30,14 @@ module "database" {
   sql_admin_username     = var.sql_admin_username
   db_name                = var.db_name
   cosmosdb_account_name  = var.cosmosdb_account_name
-  subnet_ids = var.subnet_ids
+  subnet_ids             = var.subnet_ids
 }
 
 module "storage" {
-  source                = "./storage"
-  location              = var.location
-  resource_group_name   = var.resource_group_name
-  storage_account_name  = var.storage_account_name
+  source               = "./storage"
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  storage_account_name = "tfstore${random_string.storage_suffix.result}"
 }
 
 module "monitoring" {

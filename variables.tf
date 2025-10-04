@@ -71,11 +71,11 @@ variable "subnet_count" {
 # Storage Module Variables
 #-------------------------------------------------------------------------------
 
-variable "storage_account_name" {
-  description = "Azure Storage Account name (globally unique)"
-  type        = string
-  default     = "myterraformappsa12345"
-}
+# variable "storage_account_name" {
+#   description = "Azure Storage Account name (globally unique)"
+#   type        = string
+#   default     = "myterraformappsa12345"
+# }
 
 variable "storage_container_name" {
   description = "Name of the container inside the storage account"
