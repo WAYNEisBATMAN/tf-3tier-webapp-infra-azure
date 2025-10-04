@@ -2,60 +2,67 @@
 
 ## 📌 Overview
 
-This repository provides a complete Infrastructure as Code (IaC) solution for deploying a **3-tier web application** on AWS using Terraform. The modular architecture separates networking, compute, database, storage, and monitoring into independent, reusable components for enhanced maintainability and scalability.
+This repository provides a complete Infrastructure as Code (IaC) solution for deploying a **3-tier web application** on Azure using Terraform. The modular architecture separates networking, compute, database, storage, monitoring, and security into independent, reusable components for enhanced maintainability and scalability.
 
 ---
 
 ## 🚀 What this Repo Provisions
-- Network: VPC, public and private subnets (multi-AZ), Internet Gateway, NAT Gateway(s), route tables, and security groups.
+- Network: Virtual Network (VNet), multiple subnets across availability zones, Network Security Groups (NSGs), NAT Gateway for secure outbound connectivity
 
-- Compute: EC2 instances for the web / app tier, an Application Load Balancer (ALB) for HTTP/HTTPS traffic, and autoscaling hooks (optional).
+- Compute: Linux Virtual Machines (Ubuntu 22.04 LTS) with public IPs, Azure Load Balancer for traffic distribution, Network Interface Cards (NICs) with security group associations
 
-- Database: RDS (MySQL/Postgres) in private subnets with a DB subnet group and optional DynamoDB table for session or ephemeral data.
+- Database: Azure SQL Database, Azure Database for MySQL Flexible Server, Cosmos DB for NoSQL workloads
 
-- Storage: S3 buckets for assets, logs, and backups with appropriate lifecycle rules and encryption.
+- Storage: Azure Storage Account with Blob containers, File shares, Queue storage, and Table storage with lifecycle management
 
-- Monitoring: CloudWatch alarms, dashboards, and metrics for core resources.
+- Monitoring: Azure Monitor with Log Analytics Workspace, metric alerts for CPU usage, action groups for notifications
 
-This setup implements a classic 3‑tier architecture (presentation via ALB + Web EC2, application tier on EC2, data tier on RDS/DynamoDB).
+- Security: Azure Key Vault for secrets management with auto-generated passwords, SSH key pair generation for VM access
+
+This setup implements a classic 3-tier architecture (presentation via Load Balancer + Web VMs, application tier on VMs, data tier on Azure SQL/MySQL/Cosmos DB).
 
 ---
 
 ## 📂 Project Structure
 
 ```
-terraform-azure/
-├── provider.tf              # Root-level Azure provider config
-├── main.tf                  # Root-level module calls
-├── variables.tf             # Root-level variables
+tf-3tier-webapp-infra-azure/
+├── main.tf                  # Root-level module orchestration and resource group
+├── variables.tf             # Root-level input variables
 ├── outputs.tf               # Root-level outputs
-├── terraform.tfvars         # Root-level variable values
+├── terraform.tfvars         # Variable values (exclude passwords)
 │
 ├── network/
-│   ├── main.tf              # Virtual Network (VNet), subnets, NSGs (Network Security Groups)
+│   ├── main.tf              # VNet, subnets, NSG, NAT Gateway
 │   ├── variables.tf
 │   └── outputs.tf
 │
 ├── compute/
-│   ├── main.tf              # Virtual Machines (VMs), Azure Load Balancer / Application Gateway, Scale Sets
+│   ├── main.tf              # Linux VMs, Load Balancer, Public IPs, NICs
 │   ├── variables.tf
 │   └── outputs.tf
 │
 ├── database/
-│   ├── main.tf              # Azure SQL Database, Azure Database for PostgreSQL/MySQL, Cosmos DB (optional)
+│   ├── main.tf              # Azure SQL, MySQL Flexible Server, Cosmos DB
 │   ├── variables.tf
 │   └── outputs.tf
 │
 ├── storage/
-│   ├── main.tf              # Azure Storage Accounts (Blob, File, Queue, Table)
+│   ├── main.tf              # Storage Account (Blob, File, Queue, Table)
 │   ├── variables.tf
 │   └── outputs.tf
 │
-└── monitoring/
-    ├── main.tf              # Azure Monitor, Log Analytics Workspace, Alerts
-    ├── variables.tf
-    └── outputs.tf
-
+├── monitoring/
+│   ├── main.tf              # Log Analytics, Monitor Alerts, Action Groups
+│   ├── variables.tf
+│   └── outputs.tf
+│
+├── keyvault/
+│   ├── main.tf              # Azure Key Vault, auto-generated passwords, secrets
+│   ├── variables.tf
+│   └── outputs.tf
+│
+└── ssh-keys/                # Auto-generated SSH key pairs (excluded from git)
 
 
 ```
@@ -66,66 +73,66 @@ terraform-azure/
 
 ### Required Software
 - **Terraform** >= 1.12 ([Download](https://developer.hashicorp.com/terraform/downloads))
-- **AWS CLI** installed and configured ([Installation Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html))
+- **Azure CLI** >= 2.50.0 (Installation Guide)
 
-### AWS Configuration
-- AWS credentials configured via `~/.aws/credentials` (using default profile)
-- Valid Access Key ID and Secret Access Key
-- AWS account with appropriate IAM permissions
+### Azure Configuration
+- Azure subscription with active account
+- Azure CLI authenticated (az login)
+- Appropriate permissions to create resources
 
-### Required AWS Permissions
-Your IAM user or role must have permissions for:
-- **Networking:** VPC, Subnets, Internet Gateway, NAT Gateway
-- **Compute:** EC2, Application Load Balancer, Auto Scaling Groups
-- **Database:** RDS, DynamoDB
-- **Storage:** S3
-- **Monitoring:** CloudWatch Logs, CloudWatch Alarms
-- **Security:** IAM Roles and Policies
+
+### Required Azure Permissions
+Your account must have permissions for:
+
+- **Resource Groups:** Create, Read, Delete
+- **Networking:** Virtual Networks, Subnets, NSGs, NAT Gateway, Public IPs
+- **Compute:** Virtual Machines, Load Balancers, Network Interfaces
+- **Database:** Azure SQL, MySQL Flexible Server, Cosmos DB
+- **Storage:** Storage Accounts (Blob, File, Queue, Table)
+- **Monitoring:** Log Analytics, Monitor Alerts, Action Groups
+- **Security:** Key Vault (create, manage secrets)
+
 
 ### Optional Configuration
-- Remote backend for state management (S3 bucket + DynamoDB table)
-- Configure in `backend.tf` for state locking and team collaboration
+- Remote backend for state management (Azure Storage Account)
+- Configure in backend.tf for state locking and team collaboration
 
 ---
-## 🔑 Setting up AWS Credentials
+## 🔑 Setting up Azure Credentials
+Terraform uses Azure CLI authentication by default:
 
-- Terraform checks for AWS credentials in this order:
+1. Install Azure CLI
+```bash
+   # For Ubuntu/Debian
+   curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+   
+   # For other OS, visit: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
+```
 
-1) Environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN)
+2. Login to Azure
+```bash
+   az login
+```
+This opens a browser window for authentication.
 
-2) AWS CLI credentials file (~/.aws/credentials)
+3. Set Active Subscription (if you have multiple)
+```bash
+   # List subscriptions
+   az account list --output table
+   
+   # Set active subscription
+   az account set --subscription "YOUR_SUBSCRIPTION_ID"
+```
 
-3) EC2 Instance Metadata Service (IMDS) (when running inside an EC2 instance with an attached IAM role)
+4. Verify Authentication
+```bash
+   az account show
+```
+👉 Important:
 
-- We’ll use the 2nd method. To set it up:
-
-
-1. **Create a Group**  
-   - Go to [IAM → User groups](https://console.aws.amazon.com/iamv2/home#/groups)  
-   - Click **Create group**  
-   - Assign required policies (e.g., `AmazonEC2FullAccess`, `AmazonS3FullAccess`, `AmazonDynamoDBFullAccess`)  
-
-2. **Create a User**  
-   - Go to [IAM → Users](https://console.aws.amazon.com/iamv2/home#/users)  
-   - Click **Add user**  
-   - Enable **Programmatic access**  
-   - Add the user to the group created above  
-   - Save the **Access Key ID** and **Secret Access Key**  
-
-3. **Run AWS Configure**  
-   ```bash
-   aws configure
-   # Then it will prompt you to provide below details which you got in step 2:
-   Access Key ID
-   Secret Access Key
-   Default region (e.g., ap-south-1)
-   Output format (choose one of the options or enter to skip)   
-
-   ```
-
-👉 Important: For the AWS Credentials Use the default profile by:
-
-Not specifying profile in the Terraform provider block and not hardcoding access keys in Terraform code
+Never hardcode credentials in Terraform files
+Use environment variables for sensitive values
+Add terraform.tfvars.secret and .env to .gitignore
 
 ---
 
@@ -133,8 +140,8 @@ Not specifying profile in the Terraform provider block and not hardcoding access
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/WAYNEisBATMAN/tf-3tier-webapp-infra-aws.git
-   cd tf-3tier-webapp-infra-aws
+   git clone https://github.com/WAYNEisBATMAN/tf-3tier-webapp-infra-azure.git
+   cd tf-3tier-webapp-infra-azure
    ```
 
 2. **Initialize Terraform**
