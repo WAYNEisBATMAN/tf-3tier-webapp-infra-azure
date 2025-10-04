@@ -1,4 +1,16 @@
 #---------------------------------------------------
+# Public IPs for VMs
+#---------------------------------------------------
+resource "azurerm_public_ip" "vm_public_ip" {
+  count               = var.instance_count
+  name                = "vm-public-ip-${count.index + 1}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
+#---------------------------------------------------
 # Network Interface for each VM
 #---------------------------------------------------
 resource "azurerm_network_interface" "web_nic" {
@@ -6,12 +18,13 @@ resource "azurerm_network_interface" "web_nic" {
   name                = "web-nic-${count.index + 1}"
   location            = var.location
   resource_group_name = var.resource_group_name
+
   ip_configuration {
     name                          = "internal"
     subnet_id                     = var.subnet_ids[count.index % length(var.subnet_ids)]
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.vm_public_ip[count.index].id
   }
-
 }
 
 #---------------------------------------------------
@@ -27,13 +40,13 @@ resource "azurerm_network_interface_security_group_association" "web_nic_nsg" {
 # Linux Virtual Machines
 #---------------------------------------------------
 resource "azurerm_linux_virtual_machine" "web" {
-  count               = var.instance_count
-  name                = "web-server-${count.index + 1}"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  size                = var.vm_size
-  admin_username      = var.admin_username
-  admin_password      = var.admin_password
+  count                           = var.instance_count
+  name                            = "web-server-${count.index + 1}"
+  location                        = var.location
+  resource_group_name             = var.resource_group_name
+  size                            = var.vm_size
+  admin_username                  = var.admin_username
+  admin_password                  = var.admin_password
   disable_password_authentication = false
   network_interface_ids = [
     azurerm_network_interface.web_nic[count.index].id

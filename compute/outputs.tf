@@ -19,9 +19,14 @@ output "load_balancer_public_ip" {
   value       = azurerm_public_ip.lb_public_ip.ip_address
 }
 
+output "vm_private_ips" {
+  description = "List of VM private IP addresses"
+  value       = azurerm_linux_virtual_machine.web[*].private_ip_address
+}
+
 output "vm_public_ips" {
-  description = "Public IP addresses of all VMs (if available)"
-  value       = [for nic in azurerm_network_interface.web_nic : nic.private_ip_address]
+  description = "Public IP addresses of VMs for SSH access"
+  value       = azurerm_public_ip.vm_public_ip[*].ip_address
 }
 
 output "load_balancer_id" {
