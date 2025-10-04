@@ -35,6 +35,11 @@ resource "azurerm_monitor_metric_alert" "cpu_alert" {
   severity            = 2
   frequency           = "PT1M"
   window_size         = "PT5M"
+
+  # Add these two required properties
+  target_resource_type     = "Microsoft.Compute/virtualMachines"
+  target_resource_location = var.location
+
   criteria {
     metric_namespace = "Microsoft.Compute/virtualMachines"
     metric_name      = "Percentage CPU"
@@ -42,6 +47,7 @@ resource "azurerm_monitor_metric_alert" "cpu_alert" {
     operator         = "GreaterThan"
     threshold        = 80
   }
+
   action {
     action_group_id = azurerm_monitor_action_group.alert_group.id
   }
