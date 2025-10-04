@@ -145,19 +145,8 @@ This opens a browser window for authentication.
    ```
 
 2. **Configure Variables**
-Edit terraform.tfvars:
-
-terraform
-resource_group_name = "my-3tier-rg"
-location            = "southindia"
-vnet_name           = "my-vnet"
-address_space       = ["10.0.0.0/16"]
-subnet_cidrs        = ["10.0.1.0/24", "10.0.2.0/24"]
-instance_count      = 2
-vm_size             = "Standard_B1s"
-admin_username      = "azureadmin"
-keyvault_name       = "my3tierkv12345"  # Must be globally unique
-Set sensitive values via environment variables:
+- Edit terraform.tfvars as per your requirements.
+- Set sensitive values via environment variables:
 
 ```bash
 export TF_VAR_alert_email="your-email@example.com"
