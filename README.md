@@ -190,11 +190,116 @@ terraform apply -auto-approve
 
 Deployment Time: Approximately 8-12 minutes
 
+*What gets created:*
+
+- 1 Resource Group
+- 1 Virtual Network with 2 subnets
+- 1 Network Security Group
+- 1 NAT Gateway
+- 2 Linux Virtual Machines (Ubuntu 22.04)
+- 1 Load Balancer with public IP
+- 3 Database services (SQL, MySQL, Cosmos DB)
+- 1 Storage Account with containers
+- 1 Log Analytics Workspace
+- 1 Key Vault with auto-generated passwords
+- 1 SSH key pair
+
+8. Access Outputs
+```bash
+# View all outputs
+terraform output
+
+# View specific output
+terraform output vm_public_ips
+terraform output application_url
+terraform output ssh_connection_commands
+```
+
+
+
+9. SSH into VMs
+```bash
+# Get SSH commands
+terraform output ssh_connection_commands
+
+# Connect to VM
+ssh -i ssh-keys/terraform-vm-key.pem azureadmin@<VM_PUBLIC_IP>
+```
+
 ---
 
+## 🔐 Security Features
+**Auto-Generated Credentials**
+- VM passwords: Auto-generated 16-character passwords stored in Key Vault
+- SQL passwords: Auto-generated and stored securely
+- MySQL passwords: Auto-generated and stored securely
+- SSH keys: 4096-bit RSA key pairs generated automatically
+
+**Retrieve Passwords**
+```bash
+# Via Azure CLI
+az keyvault secret show --vault-name "my3tierkv12345" --name "vm-admin-password" --query "value" -o tsv
+
+# Via Azure Portal
+Azure Portal → Key Vaults → my3tierkv12345 → Secrets
+```
+
+**Network Security**
+- NSG rules allow only HTTP (80) and SSH (22)
+- NAT Gateway for secure outbound connectivity
+- Private IPs for internal communication
+- Public IPs only for Load Balancer and VMs (can be removed for production)
+
+---
+## 📝 Important Notes
+- Costs: Running this infrastructure incurs Azure charges. Monitor your Azure Cost Management.
+- State File: Contains sensitive information. Never commit terraform.tfstate to git.
+- Key Vault Names: Must be globally unique (3-24 characters, alphanumeric).
+- Storage Account Names: Must be globally unique (3-24 characters, lowercase alphanumeric).
+- VM Passwords: Auto-generated passwords meet Azure complexity requirements.
+- SSH Keys: Stored in ssh-keys/ directory (added to .gitignore).
 
 
-## ♻️ Cleanup
-terraform destroy from the root will attempt to delete all resources the modules created.
 
-If state mismatches occur, consider terraform state rm for orphaned items before destroying.
+---
+## 🐛 Troubleshooting
+**Issue: Resource Group already exists**
+```bash
+# Import existing resource group
+terraform import azurerm_resource_group.main /subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP_NAME
+```
+
+**Issue: Key Vault name already taken**
+- Change keyvault_name in terraform.tfvars to a unique value.
+
+**Issue: Cannot SSH to VMs**
+- Check NSG rules allow port 22
+- Verify public IP is assigned
+- Check SSH key permissions: chmod 600 ssh-keys/terraform-vm-key.pem
+
+**Issue: Terraform state locked**
+```bash
+# Force unlock (use carefully)
+terraform force-unlock LOCK_ID
+```
+
+
+---
+## 🗑️ Cleanup
+- Destroy all resources:
+```bash
+terraform destroy -auto-approve
+```
+
+- Destroy specific module:
+```bash
+terraform destroy -target=module.compute
+```
+
+*⚠️ Warning: This permanently deletes all resources including:*
+
+- Virtual Machines and data
+- Databases (SQL, MySQL, Cosmos DB)
+- Storage accounts and data
+- Key Vault (with soft-delete enabled, can be recovered for 7 days)
+- Cleanup Time: Approximately 5-8 minutes
