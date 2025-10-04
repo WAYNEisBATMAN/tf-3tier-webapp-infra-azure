@@ -144,7 +144,7 @@ This opens a browser window for authentication.
    cd tf-3tier-webapp-infra-azure
    ```
 
-2. **Configure Variables**
+**2. Configure Variables**
 - Edit terraform.tfvars as per your requirements.
 - Set sensitive values via environment variables:
 
