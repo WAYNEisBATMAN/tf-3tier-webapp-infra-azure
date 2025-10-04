@@ -2,6 +2,21 @@
 # Root Module - Azure 3-Tier Web App Infra
 #---------------------------------------------------
 
+#---------------------------------------------------
+# Resource Group
+#---------------------------------------------------
+resource "azurerm_resource_group" "main" {
+  name     = var.resource_group_name
+  location = var.location
+
+  tags = {
+    Environment = "TestProject"
+    ManagedBy   = "Terraform"
+    Project     = "3-Tier-WebApp  "
+  }
+}
+
+
 module "network" {
   source              = "./network"
   location            = var.location
@@ -39,6 +54,9 @@ resource "random_string" "storage_suffix" {
   special = false
   upper   = false
 }
+
+
+
 
 module "storage" {
   source               = "./storage"
