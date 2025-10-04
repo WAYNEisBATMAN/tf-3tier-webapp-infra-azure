@@ -23,6 +23,7 @@ resource "azurerm_monitor_action_group" "alert_group" {
   }
 }
 
+
 #---------------------------------------------------
 # Metric Alert for CPU Usage
 #---------------------------------------------------
