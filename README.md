@@ -300,14 +300,14 @@ az monitor metrics list --resource <RESOURCE_ID>
 ```
 
 ---
-🔄 Updating Infrastructure
-# Modify terraform.tfvars or module files
-# Preview changes
+## 🔄 Updating Infrastructure
+**Modify terraform.tfvars or module files**
+- Preview changes
 ```bash
 terraform plan
 ```
 
-# Apply changes
+- Apply changes
 ```bash
 terraform apply
 ```
