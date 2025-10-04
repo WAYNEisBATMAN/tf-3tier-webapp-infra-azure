@@ -14,9 +14,14 @@ variable "location" {
 }
 
 variable "storage_account_name" {
-  description = "Name of the Azure Storage Account (must be globally unique)"
+  description = "Storage account name prefix (suffix will be auto-generated)"
   type        = string
-  default     = "mystorageacc${random_string.suffix.result}"
+  default     = "tfstore" # Just a simple prefix
+
+  validation {
+    condition     = length(var.storage_account_name) <= 16
+    error_message = "Storage account name prefix must be 16 characters or less to allow for random suffix."
+  }
 }
 
 variable "enable_blob_service" {
@@ -52,5 +57,5 @@ variable "account_tier" {
 variable "account_replication_type" {
   description = "Replication type for the storage account"
   type        = string
-  default     = "LRS"  # Options: LRS, GRS, ZRS, RA-GRS, etc.
+  default     = "LRS" # Options: LRS, GRS, ZRS, RA-GRS, etc.
 }

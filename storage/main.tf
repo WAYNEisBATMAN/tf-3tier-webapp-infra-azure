@@ -1,8 +1,18 @@
 #---------------------------------------------------
+# Generate random suffix for globally unique name
+#---------------------------------------------------
+resource "random_string" "storage_suffix" {
+  length  = 8
+  special = false
+  upper   = false
+}
+
+
+#---------------------------------------------------
 # Azure Storage Account
 #---------------------------------------------------
 resource "azurerm_storage_account" "storage" {
-  name                     = var.storage_account_name
+  name                     = "${var.storage_account_name}${random_string.storage_suffix.result}"
   resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = var.account_tier
