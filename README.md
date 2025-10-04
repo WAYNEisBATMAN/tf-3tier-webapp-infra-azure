@@ -1,4 +1,4 @@
-# ☁️ Terraform-AWS—3‑Tier Web App Infrastructure Project
+# ☁️ Terraform-Azure-3-Tier Web App Infrastructure Project
 
 ## 📌 Overview
 
@@ -128,11 +128,11 @@ This opens a browser window for authentication.
 ```bash
    az account show
 ```
-👉 Important:
+👉 **Important:**
 
-Never hardcode credentials in Terraform files
-Use environment variables for sensitive values
-Add terraform.tfvars.secret and .env to .gitignore
+- Never hardcode credentials in Terraform files
+- Use environment variables for sensitive values
+- Add terraform.tfvars.secret and .env to .gitignore
 
 ---
 
