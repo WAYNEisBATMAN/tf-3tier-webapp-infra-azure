@@ -16,18 +16,18 @@ output "admin_username" {
 
 output "admin_password" {
   description = "Admin password from Key Vault"
-  value       = azurerm_key_vault_secret.admin_password.value
+  value       = random_password.admin_password.result
   sensitive   = true
 }
 
 output "sql_admin_password" {
   description = "SQL admin password from Key Vault"
-  value       = azurerm_key_vault_secret.sql_admin_password.value
+  value       = random_password.sql_admin_password.result
   sensitive   = true
 }
 
 output "db_admin_password" {
   description = "Database admin password from Key Vault"
-  value       = azurerm_key_vault_secret.db_admin_password.value
+  value       = random_password.db_admin_password.result
   sensitive   = true
 }

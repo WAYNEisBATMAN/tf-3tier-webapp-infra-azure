@@ -26,9 +26,7 @@ module "keyvault" {
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   admin_username      = var.admin_username
-  admin_password      = var.admin_password
-  sql_admin_password  = var.sql_admin_password
-  db_admin_password   = var.db_admin_password
+  # Passwords are now generated automatically - no need to pass them
 
   depends_on = [azurerm_resource_group.main]
 }

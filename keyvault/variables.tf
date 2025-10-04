@@ -19,20 +19,3 @@ variable "admin_username" {
   sensitive   = true
 }
 
-variable "admin_password" {
-  description = "VM admin password"
-  type        = string
-  sensitive   = true
-}
-
-variable "sql_admin_password" {
-  description = "SQL admin password"
-  type        = string
-  sensitive   = true
-}
-
-variable "db_admin_password" {
-  description = "Database admin password"
-  type        = string
-  sensitive   = true
-}

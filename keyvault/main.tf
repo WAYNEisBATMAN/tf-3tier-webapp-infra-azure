@@ -46,28 +46,40 @@ resource "azurerm_key_vault_secret" "admin_username" {
 }
 
 #---------------------------------------------------
-# Store Admin Password
+# Generate Random Passwords
+#---------------------------------------------------
+resource "random_password" "admin_password" {
+  length  = 16
+  special = true
+}
+
+resource "random_password" "sql_admin_password" {
+  length  = 16
+  special = true
+}
+
+resource "random_password" "db_admin_password" {
+  length  = 16
+  special = true
+}
+
+#---------------------------------------------------
+# Store Generated Passwords in Key Vault
 #---------------------------------------------------
 resource "azurerm_key_vault_secret" "admin_password" {
   name         = "vm-admin-password"
-  value        = var.admin_password
+  value        = random_password.admin_password.result
   key_vault_id = azurerm_key_vault.main.id
 }
 
-#---------------------------------------------------
-# Store SQL Admin Password
-#---------------------------------------------------
 resource "azurerm_key_vault_secret" "sql_admin_password" {
   name         = "sql-admin-password"
-  value        = var.sql_admin_password
+  value        = random_password.sql_admin_password.result
   key_vault_id = azurerm_key_vault.main.id
 }
 
-#---------------------------------------------------
-# Store Database Admin Password
-#---------------------------------------------------
 resource "azurerm_key_vault_secret" "db_admin_password" {
   name         = "db-admin-password"
-  value        = var.db_admin_password
+  value        = random_password.db_admin_password.result
   key_vault_id = azurerm_key_vault.main.id
 }
